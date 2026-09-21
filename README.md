@@ -104,7 +104,7 @@ These issues were corrected by:
 ## Final Workflow Result
 The final end-to-end workflow was verified successfully with:
 
-- `pytest -q` → 8 passed
+- `pytest -q` → 9 passed
 - `python src/aiops_pipeline.py` → pipeline completed successfully
 
 Pipeline summary:
