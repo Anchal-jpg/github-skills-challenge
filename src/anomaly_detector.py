@@ -12,6 +12,20 @@ class AnomalyDetector:
         self.memory_threshold = memory_threshold
 
     def detect(self, record):
+        required_fields = {
+            "timestamp",
+            "service",
+            "response_time_ms",
+            "cpu_percent",
+            "memory_percent",
+            "log_level",
+            "message",
+        }
+        missing_fields = required_fields - record.keys()
+        if missing_fields:
+            missing = ", ".join(sorted(missing_fields))
+            raise ValueError(f"Missing required telemetry fields: {missing}")
+
         reasons = []
 
         if record["response_time_ms"] > self.response_time_threshold:

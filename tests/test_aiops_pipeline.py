@@ -1,4 +1,4 @@
-from pathlib import Path
+import pytest
 
 from src.anomaly_detector import AnomalyDetector
 from src.aiops_pipeline import run_pipeline
@@ -40,6 +40,21 @@ def test_anomalous_record_is_detected():
 
     assert event is not None
     assert event["type"] == "ANOMALY"
+
+
+def test_record_missing_required_field_has_clear_error():
+    detector = AnomalyDetector()
+    record = {
+        "timestamp": "2026-09-20T10:05:00",
+        "service": "payment-service",
+        "response_time_ms": 610,
+        "cpu_percent": 75,
+        "memory_percent": 70,
+        "log_level": "ERROR",
+    }
+
+    with pytest.raises(ValueError, match="Missing required telemetry fields: message"):
+        detector.detect(record)
 
 
 def test_producer_publishes_event():

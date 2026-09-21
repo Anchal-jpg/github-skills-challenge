@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 try:
     from .anomaly_detector import AnomalyDetector
@@ -45,7 +46,8 @@ def run_pipeline(file_path):
 
 
 if __name__ == "__main__":
-    result = run_pipeline("data/service_data.json")
+    data_file = Path(__file__).resolve().parent.parent / "data" / "service_data.json"
+    result = run_pipeline(data_file)
 
     print("=" * 50)
     print("AIOps Pipeline Result")
